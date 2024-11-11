@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import slugify from 'slugify';
 
+//POST /hotel: ///
 const dataPath = path.resolve(__dirname, '../data');  // Using path.resolve
 
 interface Hotel {
@@ -76,41 +77,95 @@ export const createHotel = (req: Request, res: Response): void => {
 
   res.status(201).json({ message: 'Hotel created successfully', hotel: newHotel });
 };
-
-
-// GET by hotelID or Slug
-// Helper function to get the file path for the hotel by its ID or slug
-const getHotelFilePath = (idOrSlug: string) => {
-  const filePath = path.join(dataPath, `${idOrSlug}.json`);
-  return filePath;
+//////////////////////////////////////////////////////////////////////
+// Helper function to GET the file path for the hotel by its ID or slug
+const getHotelFilePath = (id: string): string => {
+  return path.join(dataPath, `${id}.json`);
 };
 
-// GET /hotel/:id - Retrieve a hotel by its ID or slug
-export const getHotelById = (req: Request, res: Response): void => {
-  const { id } = req.params; // Get the hotel ID or slug from the request params
+// Helper function to get a hotel by slug
+const getHotelBySlug = (slug: string): Hotel | null => {
+  const files = fs.readdirSync(dataPath); // Read all files in the data folder
+  for (const file of files) {
+    const hotelData = fs.readFileSync(path.join(dataPath, file), 'utf-8');
+    const hotel: Hotel = JSON.parse(hotelData);
+    if (hotel.slug === slug) {
+      return hotel; // Return the hotel if slug matches
+    }
+  }
+  return null; // Return null if no match found
+};
+
+export const getHotelByIdOrSlug = (req: Request, res: Response): any => {
+  const { idOrSlug } = req.params; // Get the parameter from the request (either ID or slug)
+
+  // First, try to get hotel by ID (numeric)
+  const isId = !isNaN(Number(idOrSlug)); // Check if the input is a numeric ID
+  if (isId) {
+    const filePath = getHotelFilePath(idOrSlug); // Get file path using ID
+    try {
+      const hotelData = fs.readFileSync(filePath, 'utf-8');
+      const hotel = JSON.parse(hotelData);
+      return res.status(200).json(hotel); // Return hotel if file exists
+    } catch (error) {
+      console.error('Error reading hotel data by ID:', error);
+      return res.status(404).json({ message: 'Hotel not found' });
+    }
+  }
+
+  // If it's not an ID, attempt to get hotel by slug
+  const hotel = getHotelBySlug(idOrSlug); // Try to find hotel by slug
+  if (hotel) {
+    return res.status(200).json(hotel); // Return hotel if found
+  }
+
+  // If no match was found for either ID or slug
+  return res.status(404).json({ message: 'Hotel not found' });
+};
+
+// PUT /hotel/:id - Update an existing hotel by its ID
+export const updateHotelById = (req: Request, res: Response): any => {
+  const { id } = req.params; // Get the hotel ID from the request parameters
   const filePath = getHotelFilePath(id);
 
-  //if (!fs.existsSync(filePath)) {
-    // If the file does not exist, return an error response
-   // return res.status(404).json({ message: 'Hotel not found' });
-  //}
+  // Check if the hotel file exists
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).json({ message: 'Hotel not found' });
+  }
+
+  // Get the new data from the request body
+  const { title, description, guestCount, bedroomCount, bathroomCount, amenities, host, address, latitude, longitude, rooms } = req.body;
 
   try {
-    // Read the hotel file data
+    // Read the existing hotel data from the file
     const hotelData = fs.readFileSync(filePath, 'utf-8');
     const hotel = JSON.parse(hotelData);
 
-    // If you need to add fully functional image URLs (assuming images are relative paths)
-    const baseUrl = 'http://localhost:3002'; // Assuming your server is running on port 3002
+    // Update the hotel details with the new data, if provided
+    hotel.title = title || hotel.title;
+    hotel.description = description || hotel.description;
+    hotel.guestCount = guestCount || hotel.guestCount;
+    hotel.bedroomCount = bedroomCount || hotel.bedroomCount;
+    hotel.bathroomCount = bathroomCount || hotel.bathroomCount;
+    hotel.amenities = amenities || hotel.amenities;
+    hotel.host = host || hotel.host;
+    hotel.address = address || hotel.address;
+    hotel.latitude = latitude || hotel.latitude;
+    hotel.longitude = longitude || hotel.longitude;
+    hotel.rooms = rooms || hotel.rooms;
 
-    //if (hotel.images) {
-     // hotel.images = hotel.images.map((image: string) => `${baseUrl}/uploads/${image}`);
-    //}
+    // Optionally, update the slug if the title has changed
+    if (title && title !== hotel.title) {
+      hotel.slug = slugify(title, { lower: true });
+    }
 
-    // Return the hotel data
-    res.status(200).json(hotel);
+    // Save the updated hotel data back to the file
+    fs.writeFileSync(filePath, JSON.stringify(hotel, null, 2));
+
+    // Respond with the updated hotel data
+    res.status(200).json({ message: 'Hotel updated successfully', hotel });
   } catch (error) {
-    console.error('Error reading hotel data:', error);
+    console.error('Error updating hotel data:', error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
