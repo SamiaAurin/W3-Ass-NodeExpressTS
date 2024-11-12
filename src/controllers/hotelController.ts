@@ -3,6 +3,99 @@ import fs from 'fs';
 import path from 'path';
 import slugify from 'slugify';
 
+
+
+// Define the POST /images route handler
+export const uploadImages = (req: Request, res: Response): any => {
+  const { id } = req.body;
+  console.log("Received ID:", req.body.id); // Log the ID to ensure it's received
+  console.log("Received files:", req.files); // Log the files to ensure they are being processed
+
+  if (!id) {
+    return res.status(400).json({ message: 'Hotel ID is required' });
+  }
+
+  // Check if the hotel record exists
+  const hotelPath = path.join(__dirname, `../data/${id}.json`);
+  console.log(hotelPath);
+
+  if (!fs.existsSync(hotelPath)) {
+    return res.status(404).json({ message: 'Hotel not found' });
+  }
+
+  const hotelData = JSON.parse(fs.readFileSync(hotelPath, 'utf-8'));
+  
+  // Generate fully qualified URLs
+  const imagePaths = (req.files as Express.Multer.File[]).map((file) => {
+    return `http://${req.get('host')}/uploads/${file.filename}`;
+  });
+  
+  console.log("Image Paths:", imagePaths); // Log the file paths to verify the images are being processed correctly
+
+  // Append new image URLs to hotel data
+  hotelData.images = hotelData.images ? [...hotelData.images, ...imagePaths] : imagePaths;
+
+  // Save the updated hotel data back to the JSON file
+  try {
+    fs.writeFileSync(hotelPath, JSON.stringify(hotelData, null, 2));
+    console.log("Updated hotel data saved");
+
+    // Respond with success message
+    return res.status(200).json({ message: 'Images uploaded successfully', images: imagePaths });
+  } catch (err) {
+    console.error("Error saving updated hotel data:", err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+// Room images //
+export const uploadRoomImages = (req: Request, res: Response): any => {
+  const hotelId = req.params.id;
+  const roomSlug = req.params.roomSlug;
+  
+  console.log("Received Hotel ID:", hotelId);
+  console.log("Received Room Slug:", roomSlug);
+  console.log("Received files:", req.files);
+
+  if (!hotelId || !roomSlug) {
+    return res.status(400).json({ message: 'Hotel ID and Room Slug are required' });
+  }
+
+  // Check if the hotel record exists
+  const hotelPath = path.join(__dirname, `../data/${hotelId}.json`);
+  if (!fs.existsSync(hotelPath)) {
+    return res.status(404).json({ message: 'Hotel not found' });
+  }
+
+  const hotelData = JSON.parse(fs.readFileSync(hotelPath, 'utf-8'));
+
+  // Generate fully qualified URLs for the uploaded files
+  const imagePaths = (req.files as Express.Multer.File[]).map((file) => {
+    return `http://${req.get('host')}/uploads/rooms/${file.filename}`;
+  });
+
+  // Find the specific room by `roomSlug` and add images to that room's `roomImage` property
+  const room = hotelData.rooms.find((r: any) => r.roomSlug === roomSlug);
+  if (room) {
+    room.roomImage = room.roomImage ? [...room.roomImage, ...imagePaths] : imagePaths;
+  } else {
+    return res.status(404).json({ message: 'Room not found' });
+  }
+
+  // Save the updated hotel data back to the JSON file
+  try {
+    fs.writeFileSync(hotelPath, JSON.stringify(hotelData, null, 2));
+    console.log("Updated hotel data saved");
+
+    // Respond with success message
+    return res.status(200).json({ message: 'Room images uploaded successfully', images: imagePaths });
+  } catch (err) {
+    console.error("Error saving updated hotel data:", err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+////////////////////
 //POST /hotel: ///
 const dataPath = path.resolve(__dirname, '../data');  // Using path.resolve
 
@@ -21,9 +114,10 @@ interface Hotel {
   latitude: number;
   longitude: number;
   rooms: Array<{
-    slug: string;
-    image: string;
-    title: string;
+    hotelSlug: string;
+    roomSlug: string;
+    roomImage: string;
+    roomTitle: string;
     bedroomCount: number;
   }>;
 }
@@ -78,12 +172,12 @@ export const createHotel = (req: Request, res: Response): void => {
   res.status(201).json({ message: 'Hotel created successfully', hotel: newHotel });
 };
 //////////////////////////////////////////////////////////////////////
-// Helper function to GET the file path for the hotel by its ID or slug
+//  GET the file path for the hotel by its ID or slug
 const getHotelFilePath = (id: string): string => {
   return path.join(dataPath, `${id}.json`);
 };
 
-// Helper function to get a hotel by slug
+// function to get a hotel by slug
 const getHotelBySlug = (slug: string): Hotel | null => {
   const files = fs.readdirSync(dataPath); // Read all files in the data folder
   for (const file of files) {

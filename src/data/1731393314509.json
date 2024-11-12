@@ -1,7 +1,7 @@
 {
-  "id": "1731326825808",
-  "slug": "rainwater-falls",
-  "title": "Rainwater Falls",
+  "id": "1731393314509",
+  "slug": "sseason",
+  "title": "Sseason",
   "description": "A beautiful resort located near the waterfall.",
   "guestCount": 50,
   "bedroomCount": 25,
@@ -17,7 +17,7 @@
   "longitude": -118.2437,
   "rooms": [],
   "images": [
-    "/uploads/1731392482164-home1.jpg",
-    "/uploads/1731392482167-home2.jpg"
+    "http://localhost:3002/uploads/1731393314509-home1.jpg",
+    "http://localhost:3002/uploads/1731393314509-home2.jpg"
   ]
 }
