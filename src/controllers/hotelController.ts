@@ -96,6 +96,7 @@ export const uploadRoomImages = (req: Request, res: Response): any => {
 
 ////////////////////
 //POST /hotel: ///
+
 const dataPath = path.resolve(__dirname, '../data');  // Using path.resolve
 
 interface Hotel {
@@ -170,7 +171,9 @@ export const createHotel = (req: Request, res: Response): void => {
 
   res.status(201).json({ message: 'Hotel created successfully', hotel: newHotel });
 };
-//////////////////////////////////////////////////////////////////////
+
+
+
 //  GET the file path for the hotel by its ID or slug
 const getHotelFilePath = (id: string): string => {
   return path.join(dataPath, `${id}.json`);
