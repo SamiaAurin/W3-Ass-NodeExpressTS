@@ -32,16 +32,15 @@ const HotelPoststorage = multer.diskStorage({
   }
 });
 
+const uploadHotel = multer({
+  storage: HotelPoststorage,
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit per file
+});
 /*
 POST /images: 
 Upload multiple images as multipart data. The images should be saved in a designated 
 directory, and their URLs should be updated in the corresponding hotel record. 
 */ 
-const uploadHotel = multer({
-  storage: HotelPoststorage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit per file
-});
-
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const hotelId = req.params.id || req.body.id;
