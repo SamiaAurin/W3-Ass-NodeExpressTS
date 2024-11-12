@@ -140,6 +140,7 @@ export const createHotel = (req: Request, res: Response): void => {
   const newHotel: Hotel = {
     id,
     slug,
+    images: [],
     title,
     description,
     guestCount,
@@ -151,7 +152,18 @@ export const createHotel = (req: Request, res: Response): void => {
     latitude,
     longitude,
     rooms: rooms || []
+    
   };
+  // If files are included in the request, process them
+  if (req.files) {
+    // Map uploaded image files to URLs
+    const imageUrls = (req.files as Express.Multer.File[]).map((file) => {
+      return `http://${req.get('host')}/uploads/${file.filename}`;
+    });
+
+    // Add image URLs to the hotel data
+    newHotel.images = imageUrls;
+  }
 
   // Ensure the data directory exists
   if (!fs.existsSync(dataPath)) {
@@ -167,6 +179,7 @@ export const createHotel = (req: Request, res: Response): void => {
     console.log(`Hotel data saved at ${dataPath}/${id}.json`);
   } catch (error) {
     console.error('Error writing to file:', error);
+    res.status(500).json({ message: error });
   }
 
   res.status(201).json({ message: 'Hotel created successfully', hotel: newHotel });
