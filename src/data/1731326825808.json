@@ -15,9 +15,30 @@
   "address": "123 Waterfall Road, Some City, Country",
   "latitude": 34.0522,
   "longitude": -118.2437,
-  "rooms": [],
+  "rooms": [
+    {
+      "hotelSlug": "rainwater-falls",
+      "roomSlug": "waterfall-view-suite",
+      "roomTitle": "Waterfall View Suite",
+      "bedroomCount": 5,
+      "roomImage": [
+        "http://localhost:3002/uploads/rooms/1731326825808-waterfall-view-suite-room31.jpeg",
+        "http://localhost:3002/uploads/rooms/1731326825808-waterfall-view-suite-room32.jpeg"
+      ]
+    },
+    {
+      "hotelSlug": "rainwater-falls",
+      "roomSlug": "poolside",
+      "roomTitle": "Poolside Room",
+      "bedroomCount": 10,
+      "roomImage": [
+        "http://localhost:3002/uploads/rooms/1731326825808-poolside-room41.jpeg",
+        "http://localhost:3002/uploads/rooms/1731326825808-poolside-room42.jpeg"
+      ]
+    }
+  ],
   "images": [
-    "/uploads/1731392482164-home1.jpg",
-    "/uploads/1731392482167-home2.jpg"
+    "http://localhost:3002/uploads/1731326825808-home3.jpg",
+    "http://localhost:3002/uploads/1731326825808-home4.jpg"
   ]
 }

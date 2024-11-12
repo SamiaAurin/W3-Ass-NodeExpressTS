@@ -1,7 +1,7 @@
 {
   "id": "1731393314509",
   "slug": "sseason",
-  "title": "Sseason",
+  "title": "Season",
   "description": "A beautiful resort located near the waterfall.",
   "guestCount": 50,
   "bedroomCount": 25,
@@ -15,7 +15,18 @@
   "address": "123 Waterfall Road, Some City, Country",
   "latitude": 34.0522,
   "longitude": -118.2437,
-  "rooms": [],
+  "rooms": [
+    {
+      "hotelSlug": "shajek",
+      "roomSlug": "shajek-view-suite",
+      "roomTitle": "Shajek View Suite",
+      "bedroomCount": 3,
+      "roomImage": [
+        "http://localhost:3002/uploads/rooms/1731393314509-shajek-view-suite-room31.jpeg",
+        "http://localhost:3002/uploads/rooms/1731393314509-shajek-view-suite-room32.jpeg"
+      ]
+    }
+  ],
   "images": [
     "http://localhost:3002/uploads/1731393314509-home1.jpg",
     "http://localhost:3002/uploads/1731393314509-home2.jpg"

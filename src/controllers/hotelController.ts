@@ -4,7 +4,6 @@ import path from 'path';
 import slugify from 'slugify';
 
 
-
 // Define the POST /images route handler
 export const uploadImages = (req: Request, res: Response): any => {
   const { id } = req.body;
@@ -187,7 +186,7 @@ const getHotelBySlug = (slug: string): Hotel | null => {
       return hotel; // Return the hotel if slug matches
     }
   }
-  return null; // Return null if no match found
+  return null; 
 };
 
 export const getHotelByIdOrSlug = (req: Request, res: Response): any => {
