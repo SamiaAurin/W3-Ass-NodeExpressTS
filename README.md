@@ -24,36 +24,26 @@ npm start
 npm test
 
 ### 2. Project Structure
-hotel-management-api (Root Folder)
-│
-├── __tests__                          # Unit tests for the API
-│   └── app.test.ts                    # Test file for API routes
-│
-├── node_modules                       # Node.js modules (generated after running npm install)
-│
-├── src
-│   ├── controllers                    # Logic for handling hotel-related endpoints
-│   │   └── hotelController.ts         # Controller for managing hotel data
-│   │
-│   ├── data                           # Folder storing hotel data files
-│   │   └── hotel-id.json              # JSON file with hotel data
-│   │
-│   ├── middleware                     # Middleware functions for request validation and other tasks
-│   │   └── validation.ts              # Middleware for validating request data
-│   │
-│   ├── routes                         # Folder for defining API routes
-│   │   └── hotelRoutes.ts             # Routes for the hotel API endpoints
-│   │
-│   ├── uploads                        # Folder for storing image uploads
-│   │   ├── rooms                      # Directory for storing room images
-│   │   └── hotel                      # Directory for storing hotel images
-│   │
-│   ├── app.ts                         # Main application setup and routing
-│   └── jest.config.ts                 # Jest configuration file
-│
-├── package.json                       # Project dependencies and npm scripts
-├── tsconfig.json                      # TypeScript configuration file
-
+---| hotel-management-api (Root Folder)
+     ---| __tests__
+            ---| app.test.ts                # Test file for API routes
+     ---| node_modules                    # Node.js modules
+     ---| src
+            ---| controllers
+                   ---| hotelController.ts # Logic for hotel-related endpoints
+             ---| data
+                  ---| hotel-id.json       # JSON file storing hotel data
+            ---| middleware
+                  ---| validation.ts       # Validation middleware for requests
+            ---| routes
+                  ---| hotelRoutes.ts      # Defines routes for hotel API endpoints
+            ---| uploads
+                  ---| rooms               # Directory for room images
+                  ---| hotel               # Directory for hotel images
+       ---| app.ts                          # Main application setup and routing
+       ---| jest.config.ts                 # Jest configuration file
+       ---| package.json                   # Project dependencies and scripts
+       ---| tsconfig.json                  # TypeScript configuration file
 
 ### API and Server
 
