@@ -1,5 +1,13 @@
 # Hotel Management API
 
+## Technologies to Use
+
+The following technologies are used to build and run this project:
+
+- **Node.js**
+- **Express.js framework**
+- **TypeScript**
+
 ## Project Setup
 
 To get started with this project, follow the steps below:
@@ -52,9 +60,9 @@ npm test
       - `hotelRoutes.ts`: Routes for the hotel API endpoints
     - **`uploads`**: Folder for storing image uploads
       - `rooms`: Directory for storing room images
-      - `hotel`: Directory for storing hotel images
+      -  storing hotel images
     - `app.ts`: Main application setup and routing
-    - `jest.config.ts`: Jest configuration file
+  - `jest.config.ts`: Jest configuration file
   - `package.json`: Project dependencies and npm scripts
   - `tsconfig.json`: TypeScript configuration file
 
@@ -131,4 +139,24 @@ When posting a new hotel, the following information will be stored in the corres
   - **Bedroom Count**: 
     - The number of bedrooms in the room
 
+## Postman Collection
 
+You can import the Postman collection for this project by following these steps:
+
+### 1. Download the Postman Collection File
+Download the `W3-Ass-03.postman_collection.json` file from the repository.
+
+### 2. Import the Collection into Postman
+1. Open Postman on your system.
+2. Click on the **Import** button in the top-left corner of the Postman interface.
+3. Select **Upload Files** and choose the `W3-Ass-03.postman_collection.json` file from your local machine.
+4. After selecting the file, click **Open** to import the collection into Postman.
+
+### 3. Use the Collection
+Once imported, the collection will appear in the **Collections** tab in Postman. You can now use it to test the API endpoints.
+
+## Project Screenshots
+
+To help you visualize the process and results of using the API, the project includes several screenshots stored in the PostmanPics folder.  
+
+![Post a new Hotel Image](./PostmanPics/PostHotel.png)

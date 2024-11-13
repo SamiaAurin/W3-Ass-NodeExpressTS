@@ -1,0 +1,257 @@
+{
+	"info": {
+		"_postman_id": "b2387fc7-e6ff-4e41-8c9a-6c119c81c785",
+		"name": "W3-Ass-03",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38190570"
+	},
+	"item": [
+		{
+			"name": "POST Hotel_Info",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Length",
+						"value": "<calculated when request is sent>",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "Lameridian",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "A luxurious five star hotel.",
+							"type": "text"
+						},
+						{
+							"key": "guestCount",
+							"value": "200",
+							"type": "text"
+						},
+						{
+							"key": "bedroomCount",
+							"value": "100",
+							"type": "text"
+						},
+						{
+							"key": "bathroomCount",
+							"value": "100",
+							"type": "text"
+						},
+						{
+							"key": "amenities[]",
+							"value": "Free Wi-Fi",
+							"type": "text"
+						},
+						{
+							"key": "amenities[]",
+							"value": "Beach Access",
+							"type": "text"
+						},
+						{
+							"key": "host",
+							"value": "Host",
+							"type": "text"
+						},
+						{
+							"key": "address",
+							"value": "Kurmitola",
+							"type": "text"
+						},
+						{
+							"key": "latitude",
+							"value": "34.0522",
+							"type": "text"
+						},
+						{
+							"key": "longitude",
+							"value": "-118.2437",
+							"type": "text"
+						},
+						{
+							"key": "rooms[0][hotelSlug]",
+							"value": "lameridian",
+							"type": "text"
+						},
+						{
+							"key": "rooms[0][roomSlug]",
+							"value": "garden-view-suite",
+							"type": "text"
+						},
+						{
+							"key": "rooms[0][roomTitle]",
+							"value": "Garden View Suite",
+							"type": "text"
+						},
+						{
+							"key": "rooms[0][bedroomCount]",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "images",
+							"type": "file",
+							"src": "/home/w3e55/Documents/radisson.jpeg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3002/api/hotel/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"api",
+						"hotel",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Hotel_Info",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/api/hotel/1731479032307",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"api",
+						"hotel",
+						"1731479032307"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Hotel_Info",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"title\": \"Season\",\r\n \"rooms\": [\r\n    {\r\n      \"hotelSlug\": \"shajek\",\r\n      \"roomSlug\": \"shajek-view-suite\",\r\n      \"roomTitle\": \"Shajek View Suite\",\r\n      \"bedroomCount\": 4\r\n    }\r\n  ]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3002/api/hotel/1731393314509",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"api",
+						"hotel",
+						"1731393314509"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Images",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "id",
+							"value": "1731479032307",
+							"type": "text"
+						},
+						{
+							"key": "images",
+							"type": "file",
+							"src": "/home/w3e55/Documents/room51.jpeg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3002/api/images/1731479032307/garden-view-suite",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"api",
+						"images",
+						"1731479032307",
+						"garden-view-suite"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
