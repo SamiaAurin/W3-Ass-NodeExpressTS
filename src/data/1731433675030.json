@@ -1,9 +1,6 @@
 {
   "id": "1731433675030",
   "slug": "hotel-example",
-  "images": [
-    "http://<calculated when request is sent>/uploads/hotel51.jpeg"
-  ],
   "title": "Hotel Example",
   "description": "A beautiful place to stay.",
   "guestCount": "10",

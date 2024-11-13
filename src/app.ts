@@ -11,8 +11,7 @@ app.use('/api', hotelRoutes);
 
 
 // Serve static files from the 'uploads' directory
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 if (process.env.NODE_ENV !== 'test') {
   const port = 3002;

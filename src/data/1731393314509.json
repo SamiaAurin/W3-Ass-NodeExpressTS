@@ -20,11 +20,7 @@
       "hotelSlug": "shajek",
       "roomSlug": "shajek-view-suite",
       "roomTitle": "Shajek View Suite",
-      "bedroomCount": 3,
-      "roomImage": [
-        "http://localhost:3002/uploads/rooms/1731393314509-shajek-view-suite-room31.jpeg",
-        "http://localhost:3002/uploads/rooms/1731393314509-shajek-view-suite-room32.jpeg"
-      ]
+      "bedroomCount": 4
     }
   ],
   "images": [
