@@ -4,7 +4,12 @@ import path from 'path';
 import slugify from 'slugify';
 
 
-// Define the POST /images route handler
+/* 
+POST /images:
+Upload multiple images as multipart data. The images should be saved in a designated
+directory, and their URLs should be updated in the corresponding hotel record. 
+*/
+// Hotel Images
 export const uploadImages = (req: Request, res: Response): any => {
   const { id } = req.body;
   console.log("Received ID:", req.body.id); // Log the ID to ensure it's received
@@ -48,6 +53,7 @@ export const uploadImages = (req: Request, res: Response): any => {
 };
 
 // Room images //
+
 export const uploadRoomImages = (req: Request, res: Response): any => {
   const hotelId = req.params.id;
   const roomSlug = req.params.roomSlug;
@@ -94,8 +100,13 @@ export const uploadRoomImages = (req: Request, res: Response): any => {
   }
 };
 
-////////////////////
-//POST /hotel: ///
+///////////////////////////////////////////////////////////////////////////////////
+/*
+POST /hotel:
+Insert a new hotel record. The request body should include hotel data in JSON format,
+following the provided schema. The data should be stored in a JSON file on the server
+named hotel-id.json, where hotel-id is the unique identifier for the hotel. 
+*/
 
 const dataPath = path.resolve(__dirname, '../data');  // Using path.resolve
 
@@ -122,7 +133,7 @@ interface Hotel {
   }>;
 }
 
-export const createHotel = (req: Request, res: Response): void => {
+export const createHotel = (req: Request, res: Response): any => {
   console.log("POST /hotel endpoint hit");
   console.log('Request headers:', req.headers);
   console.log('Request body:', req.body);
@@ -155,10 +166,11 @@ export const createHotel = (req: Request, res: Response): void => {
     
   };
   // If files are included in the request, process them
+  const baseUrl = `http://localhost:3002`;
   if (req.files) {
     // Map uploaded image files to URLs
     const imageUrls = (req.files as Express.Multer.File[]).map((file) => {
-      return `http://${req.get('host')}/uploads/${file.filename}`;
+      return `${baseUrl}/uploads/${file.filename}`;
     });
 
     // Add image URLs to the hotel data
@@ -185,9 +197,12 @@ export const createHotel = (req: Request, res: Response): void => {
   res.status(201).json({ message: 'Hotel created successfully', hotel: newHotel });
 };
 
-
-
-//  GET the file path for the hotel by its ID or slug
+/////////////////////////////////////////////////////////////////////////////////////
+/*
+GET /hotel/{hotel-id}:
+Retrieve detailed information of a specific hotel using its unique ID or slug. The response
+should include all relevant hotel data, including fully functional image URLs.
+ */
 const getHotelFilePath = (id: string): string => {
   return path.join(dataPath, `${id}.json`);
 };
@@ -232,7 +247,12 @@ export const getHotelByIdOrSlug = (req: Request, res: Response): any => {
   return res.status(404).json({ message: 'Hotel not found' });
 };
 
-// PUT /hotel/:id - Update an existing hotel by its ID
+/////////////////////////////////////////////////////////////////////////////////////
+/* 
+PUT /hotel/{hotel-id}:
+Update an existing hotel's data (e.g., title, description, etc.) using its unique ID. The
+request body should contain the updated hotel information.
+*/
 export const updateHotelById = (req: Request, res: Response): any => {
   const { id } = req.params; // Get the hotel ID from the request parameters
   const filePath = getHotelFilePath(id);
@@ -249,7 +269,7 @@ export const updateHotelById = (req: Request, res: Response): any => {
     // Read the existing hotel data from the file
     const hotelData = fs.readFileSync(filePath, 'utf-8');
     const hotel = JSON.parse(hotelData);
-
+    
     // Update the hotel details with the new data, if provided
     hotel.title = title || hotel.title;
     hotel.description = description || hotel.description;
@@ -272,9 +292,10 @@ export const updateHotelById = (req: Request, res: Response): any => {
     fs.writeFileSync(filePath, JSON.stringify(hotel, null, 2));
 
     // Respond with the updated hotel data
-    res.status(200).json({ message: 'Hotel updated successfully', hotel });
+    res.status(200).json({ message: 'Hotel updated successfully', hotel});
   } catch (error) {
     console.error('Error updating hotel data:', error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+

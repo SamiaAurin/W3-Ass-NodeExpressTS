@@ -3,6 +3,9 @@ import multer from 'multer';
 import { createHotel, getHotelByIdOrSlug, updateHotelById, uploadImages, uploadRoomImages } from '../controllers/hotelController';
 import path from 'path';
 import fs from 'fs';
+// validations
+import { validateHotelUpdate } from '../middleware/validation';
+
 
 const router = Router();
 
@@ -21,15 +24,19 @@ const HotelPoststorage = multer.diskStorage({
     fs.mkdirSync(destinationPath, { recursive: true });
     
     cb(null, destinationPath);
+    
   },
   filename: (req, file, cb) => {
-    // Use the current timestamp and original file name to create a unique file name
+    
+    // Hotel Images
     const extension = path.extname(file.originalname);
     const originalName = path.basename(file.originalname, extension);
     const filename = `${originalName}${extension}`;
     
     cb(null, filename);
+    
   }
+  
 });
 
 const uploadHotel = multer({
@@ -50,7 +57,7 @@ const storage = multer.diskStorage({
     
     // Define the destination folder based on route
     const folder = req.params.roomSlug ? 'rooms' : ''; // Use 'rooms' folder if URL has /images/:id/:roomSlug
-    const destinationPath = path.join(__dirname, '../uploads/${folder}');
+    const destinationPath = path.join(__dirname, `../uploads/${folder}`);
 
     // Ensure the directory exists
     fs.mkdirSync(destinationPath, { recursive: true });
@@ -87,15 +94,15 @@ const upload = multer({
 // POST /hotel - Create hotel with images
 router.post('/hotel', uploadHotel.array('images', 10), createHotel);
 
-// Upload hotel images
+// Upload hotel images for POST/images
 router.post('/images/:id', upload.array('images', 10), uploadImages); 
-// Upload room images
+// Upload room images for POST/images/roomimages
 router.post('/images/:id/:roomSlug', upload.array('images', 10), uploadRoomImages); 
 
 // Retreive hotel informations
 router.get('/hotel/:idOrSlug', getHotelByIdOrSlug);
 
 // Update hotel informations
-router.put('/hotel/:id', updateHotelById); 
+router.put('/hotel/:id', validateHotelUpdate, updateHotelById); 
 
 export default router;
