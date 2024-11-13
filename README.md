@@ -9,7 +9,7 @@ Begin by cloning this repository to your local machine using the following comma
 First, clone this repository to your local machine by running the following command in your terminal:
 
 ```bash
-git clone [<repository-url>](https://github.com/SamiaAurin/W3-Ass-NodeExpressTS.git)
+git clone https://github.com/SamiaAurin/W3-Ass-NodeExpressTS.git
 ```
 >> Once cloned, navigate into the project directory: 
 ```bash
@@ -37,35 +37,26 @@ npm test
 
 ### 2. Project Structure
 
-hotel-management-api (Root Folder)
-│
-├── __tests__                          # Unit tests for the API
-│   └── app.test.ts                    # Test file for API routes
-│
-├── node_modules                       # Node.js modules (generated after running npm install)
-│
-├── src
-│   ├── controllers                    # Logic for handling hotel-related endpoints
-│   │   └── hotelController.ts         # Controller for managing hotel data
-│   │
-│   ├── data                           # Folder storing hotel data files
-│   │   └── hotel-id.json              # JSON file with hotel data
-│   │
-│   ├── middleware                     # Middleware functions for request validation and other tasks
-│   │   └── validation.ts              # Middleware for validating request data
-│   │
-│   ├── routes                         # Folder for defining API routes
-│   │   └── hotelRoutes.ts             # Routes for the hotel API endpoints
-│   │
-│   ├── uploads                        # Folder for storing image uploads
-│   │   ├── rooms                      # Directory for storing room images
-│   │   └── hotel                      # Directory for storing hotel images
-│   │
-│   ├── app.ts                         # Main application setup and routing
-│   └── jest.config.ts                 # Jest configuration file
-│
-├── package.json                       # Project dependencies and npm scripts
-├── tsconfig.json                      # TypeScript configuration file
+- **hotel-management-api (Root Folder)**
+  - **`__tests__`**: Unit tests for the API
+    - `app.test.ts`: Test file for API routes
+  - **`node_modules`**: Node.js modules (generated after running `npm install`)
+  - **`src`**:
+    - **`controllers`**: Logic for handling hotel-related endpoints
+      - `hotelController.ts`: Controller for managing hotel data
+    - **`data`**: Folder storing hotel data files
+      - `hotel-id.json`: JSON file with hotel data
+    - **`middleware`**: Middleware functions for request validation and other tasks
+      - `validation.ts`: Middleware for validating request data
+    - **`routes`**: Folder for defining API routes
+      - `hotelRoutes.ts`: Routes for the hotel API endpoints
+    - **`uploads`**: Folder for storing image uploads
+      - `rooms`: Directory for storing room images
+      - `hotel`: Directory for storing hotel images
+    - `app.ts`: Main application setup and routing
+    - `jest.config.ts`: Jest configuration file
+  - `package.json`: Project dependencies and npm scripts
+  - `tsconfig.json`: TypeScript configuration file
 
 ### API and Server
 
@@ -99,5 +90,45 @@ The Hotel Management API includes the following core routes in src/app.ts:
   - In Postman Make a request using PUT method http://localhost:3002/api/hotel/hotel-id 
 
 These routes enable management of hotel records, including image handling for hotels and their rooms. All image URLs are made accessible via the `/uploads` directory.
+
+## Schema for Posting a New Hotel
+
+When posting a new hotel, the following information will be stored in the corresponding hotel JSON file located in `src/data/hotel-id.json`:
+
+- **Hotel ID**: 
+  - Auto-generated for uniqueness in `hotelController.ts`
+- **Slug**: 
+  - Generated using the `slugify` library (third-party)
+- **Images**: 
+  - List of image URLs associated with the hotel
+- **Title**: 
+  - The name/title of the hotel
+- **Description**: 
+  - A brief description of the hotel
+- **Guest Count**: 
+  - The number of guests the hotel can accommodate
+- **Bedroom Count**: 
+  - The number of bedrooms in the hotel
+- **Bathroom Count**: 
+  - The number of bathrooms in the hotel
+- **Amenities**: 
+  - List of amenities provided by the hotel (e.g., pool, gym, etc.)
+- **Host Information**: 
+  - Details about the host, such as name, contact info, etc.
+- **Address**: 
+  - The full address of the hotel
+- **Latitude & Longitude**: 
+  - Geographical coordinates of the hotel (in decimal format)
+- **Room Information** (multiple rooms per hotel):
+  - **Hotel Slug**: 
+    - Unique slug for the hotel
+  - **Room Slug**: 
+    - Unique slug for each room in the hotel
+  - **Room Image**: 
+    - Image URL for the room (uploaded using `POST /api/images/:id/:roomSlug`)
+  - **Room Title**: 
+    - The title or name of the room
+  - **Bedroom Count**: 
+    - The number of bedrooms in the room
 
 
