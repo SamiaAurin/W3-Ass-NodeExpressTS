@@ -34,7 +34,7 @@ export const uploadImages = (req: Request, res: Response): any => {
     return `http://${req.get('host')}/uploads/${file.filename}`;
   });
   
-  console.log("Image Paths:", imagePaths); // Log the file paths to verify the images are being processed correctly
+  //console.log("Image Paths:", imagePaths); // Log the file paths to verify the images are being processed correctly
 
   // Append new image URLs to hotel data
   hotelData.images = hotelData.images ? [...hotelData.images, ...imagePaths] : imagePaths;
@@ -42,8 +42,7 @@ export const uploadImages = (req: Request, res: Response): any => {
   // Save the updated hotel data back to the JSON file
   try {
     fs.writeFileSync(hotelPath, JSON.stringify(hotelData, null, 2));
-    console.log("Updated hotel data saved");
-
+    
     // Respond with success message
     return res.status(200).json({ message: 'Images uploaded successfully', images: imagePaths });
   } catch (err) {
@@ -134,9 +133,9 @@ interface Hotel {
 }
 
 export const createHotel = (req: Request, res: Response): any => {
-  console.log("POST /hotel endpoint hit");
-  console.log('Request headers:', req.headers);
-  console.log('Request body:', req.body);
+  //console.log("POST /hotel endpoint hit");
+  //console.log('Request headers:', req.headers);
+  //console.log('Request body:', req.body);
 
   const { title, description, guestCount, bedroomCount, bathroomCount, amenities, host, address, latitude, longitude, rooms } = req.body;
 
@@ -183,12 +182,12 @@ export const createHotel = (req: Request, res: Response): any => {
   }
 
   // Debugging to ensure file write path
-  console.log("Data path:", dataPath);
+  //console.log("Data path:", dataPath);
 
   try {
     // Write the hotel data to a new file in the data folder
     fs.writeFileSync(`${dataPath}/${id}.json`, JSON.stringify(newHotel, null, 2));
-    console.log(`Hotel data saved at ${dataPath}/${id}.json`);
+    //console.log(`Hotel data saved at ${dataPath}/${id}.json`);
   } catch (error) {
     console.error('Error writing to file:', error);
     res.status(500).json({ message: error });
