@@ -35,7 +35,7 @@ npx tsc --version
 ```
 >>To start the server, run the following command:
 ```bash
-npm start
+npm run dev
 ```
 >> This will launch the server, and it will be accessible at http://localhost:3002.
 >>To ensure that everything is working as expected, run the unit tests using the following command:
