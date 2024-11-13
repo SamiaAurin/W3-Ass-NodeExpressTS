@@ -2,14 +2,12 @@
 
 ## Project Setup
 
-To get started with this project, follow the instructions below:
+To get started with this project, follow the steps below:
 
 ### 1. Clone the Repository
-
 Begin by cloning this repository to your local machine using the following command:
 
-```bash
-git clone <repository-url>
+git clone [<repository-url>](https://github.com/SamiaAurin/W3-Ass-NodeExpressTS.git)
 >> Once cloned, navigate into the project directory: 
 cd hotel-management-api
 
@@ -25,7 +23,7 @@ npm start
 >>To ensure that everything is working as expected, run the unit tests using the following command:
 npm test
 
-###  Project Structure
+### 2. Project Structure
 hotel-management-api (Root Folder)
 │
 ├── __tests__                          # Unit tests for the API
@@ -62,7 +60,7 @@ hotel-management-api (Root Folder)
 The Hotel Management API is built using Express.js and serves on [http://localhost:3002](http://localhost:3002) by default.
 
 - The application listens on port `3002` (or another port if configured differently).
-- It serves static files from the `uploads` directory. You can
+- It serves static files from the `uploads` directory. 
 
 ### API Routes
 
@@ -89,3 +87,5 @@ The Hotel Management API includes the following core routes:
   - In Postman Make a request using PUT method http://localhost:3002/api/hotel/hotel-id 
 
 These routes enable management of hotel records, including image handling for hotels and their rooms. All image URLs are made accessible via the `/uploads` directory.
+
+
